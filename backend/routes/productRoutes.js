@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const Product = require("../models/productModel");
 
-// 1. Saaray products mangwanay ke liye (GET Request)
 router.get("/", async (req, res) => {
   try {
     const products = await Product.find({});
@@ -12,13 +11,14 @@ router.get("/", async (req, res) => {
   }
 });
 
-// 2. Naya product add karne ke liye (POST Request - For Testing)
 router.post("/", async (req, res) => {
   try {
-    const { name, price, description, category, countInStock } = req.body;
+    const { name, image, price, description, category, countInStock } =
+      req.body;
 
     const product = new Product({
       name,
+      image,
       price,
       description,
       category,
