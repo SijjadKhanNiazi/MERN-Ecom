@@ -27,6 +27,13 @@ app.use("/api/orders", orderRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.use(errorHandler);
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, () => {
+    console.log(`app is on port ${PORT}`);
+  });
+}
 app.listen(PORT, () => {
   console.log(`app is on port ${PORT}`);
 });
+
+module.exports = app;
