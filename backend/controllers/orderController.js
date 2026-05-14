@@ -48,5 +48,21 @@ const getMyOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({ user: req.user._id });
   res.json(orders);
 });
+const deleteOrder = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id);
 
-module.exports = { addOrderItems, getOrderById, getMyOrders };
+  if (order) {
+    // Security check: Sirf wahi banda delete kar sake jisne order kiya
+    if (order.user.toString() !== req.user._id.toString()) {
+      res.status(401);
+      throw new Error("You can only delete your own orders");
+    }
+
+    await order.deleteOne();
+    res.json({ message: "Order removed" });
+  } else {
+    res.status(404);
+    throw new Error("Order not found");
+  }
+});
+module.exports = { addOrderItems, getOrderById, getMyOrders, deleteOrder };

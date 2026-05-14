@@ -10,7 +10,7 @@ const HomeScreen = () => {
   // Filtering States
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [maxPrice, setMaxPrice] = useState(10000); // Default high value
+  const [maxPrice, setMaxPrice] = useState(10000);
 
   useEffect(() => {
     const fetchProducts = async () => {

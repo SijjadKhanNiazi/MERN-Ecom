@@ -13,7 +13,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   if (userExists) {
     res.status(400);
-    throw new Error("User pehle se maujood hai");
+    throw new Error("Already Registered email!");
   }
 
   const user = await User.create({ name, email, password });

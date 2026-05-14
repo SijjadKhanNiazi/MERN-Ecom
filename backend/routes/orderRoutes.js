@@ -4,13 +4,16 @@ const {
   addOrderItems,
   getOrderById,
   getMyOrders,
+  deleteOrder,
 } = require("../controllers/orderController");
 const { protect } = require("../middlewares/authMiddleware");
 
-router.route("/").post(protect, addOrderItems);
+router.post("/", protect, addOrderItems);
 
-router.route("/myorders").get(protect, getMyOrders);
+router.get("/myorders", protect, getMyOrders);
 
-router.route("/:id").get(protect, getOrderById);
+router.get("/:id", protect, getOrderById);
+
+router.delete("/:id", protect, deleteOrder);
 
 module.exports = router;

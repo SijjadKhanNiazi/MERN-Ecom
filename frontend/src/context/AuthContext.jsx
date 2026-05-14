@@ -9,7 +9,6 @@ export const AuthProvider = ({ children }) => {
       : null,
   );
 
-  // Logout function
   const logout = () => {
     localStorage.removeItem("userInfo");
     setUserInfo(null);

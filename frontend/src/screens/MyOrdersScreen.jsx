@@ -33,6 +33,22 @@ const MyOrdersScreen = () => {
     fetchMyOrders();
   }, [userInfo]);
 
+  const deleteHandler = async (id) => {
+    if (window.confirm("Do You Really want to Cancel Your order?")) {
+      try {
+        const config = {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+        };
+        await axios.delete(`http://localhost:5000/api/orders/${id}`, config);
+
+        setOrders(orders.filter((order) => order._id !== id));
+        alert("Order deleted successfully!");
+      } catch (err) {
+        alert(err.response?.data?.message || err.message);
+      }
+    }
+  };
+
   if (loading)
     return <div className="text-center mt-20 font-bold">Orders Loading...</div>;
   if (error)
@@ -104,12 +120,24 @@ const MyOrdersScreen = () => {
                     )}
                   </td>
                   <td className="px-6 py-4">
-                    <Link
-                      to={`/order/${order._id}`}
-                      className="inline-block bg-gray-900 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-blue-600 transition shadow-sm"
-                    >
-                      DETAILS
-                    </Link>
+                    <div className="flex items-center gap-2">
+                      <Link
+                        to={`/order/${order._id}`}
+                        className="bg-gray-900 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-blue-600 transition shadow-sm"
+                      >
+                        DETAILS
+                      </Link>
+
+                      {/* DELETE/CANCEL BUTTON (Only shows if NOT paid) */}
+                      {!order.isPaid && (
+                        <button
+                          onClick={() => deleteHandler(order._id)}
+                          className="bg-red-500 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-red-700 transition shadow-sm"
+                        >
+                          CANCEL
+                        </button>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}
